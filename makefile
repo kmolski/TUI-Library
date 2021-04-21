@@ -1,28 +1,19 @@
-CXXDEBUG=-g -fsanitize=leak -fno-omit-frame-pointer
-CXXFLAGS=-Wall -Werror -Wextra -Wshadow -pedantic-errors -std=c++17
+OBJS=app.o list.o window.o grid.o button.o split.o screen.o
+
+CXXFLAGS=-Wall -Werror -Wextra -Wnon-virtual-dtor -Wshadow -pedantic-errors -std=c++20
 
 all : main
 
-obj/app.o : src/app.cpp
-	$(CXX) $(CXXFLAGS) $(CXXDEBUG) -c -o $@ $^
+.PHONY : clean
+clean :
+	rm -- *.o
+	rm main
 
-obj/list.o : src/list.cpp
-	$(CXX) $(CXXFLAGS) $(CXXDEBUG) -c -o $@ $^
+debug : CXXFLAGS+=-g -fsanitize=leak -fno-omit-frame-pointer
+debug : main
 
-obj/window.o : src/window.cpp
-	$(CXX) $(CXXFLAGS) $(CXXDEBUG) -c -o $@ $^
+$(OBJS) : %.o : src/%.cpp makefile
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
-obj/grid.o : src/grid.cpp
-	$(CXX) $(CXXFLAGS) $(CXXDEBUG) -c -o $@ $^
-
-obj/button.o : src/button.cpp
-	$(CXX) $(CXXFLAGS) $(CXXDEBUG) -c -o $@ $^
-
-obj/split.o : src/split.cpp
-	$(CXX) $(CXXFLAGS) $(CXXDEBUG) -c -o $@ $^
-
-obj/screen.o : src/screen.cpp
-	$(CXX) $(CXXFLAGS) $(CXXDEBUG) -c -o $@ $^
-
-main : src/main.cpp obj/app.o obj/list.o obj/window.o obj/grid.o obj/button.o obj/split.o obj/screen.o
-	$(CXX) $(CXXFLAGS) $(CXXDEBUG) -o $@ $^
+main : src/main.cpp $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^

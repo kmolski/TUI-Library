@@ -59,6 +59,8 @@ class Actionable
     Actionable* action_parent;
 
   public:
+    virtual ~Actionable() = default;
+
     virtual ActionResult handle_key(char) = 0;
     virtual ActionResult handle_shortcut(std::string) = 0;
 
