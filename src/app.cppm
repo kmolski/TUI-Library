@@ -31,7 +31,7 @@ export class Application {
         }
     }
 
-    void process_charkey(std::string &action, char key) {
+    static void process_charkey(std::string &action, char key) {
         switch (key) {
             case 9:
                 action += "TAB";
@@ -62,7 +62,7 @@ export class Application {
         }
     }
 
-    void process_xterm_seqence(std::string &action, char key) {
+    static void process_xterm_seqence(std::string &action, char key) {
         switch (key) {
             case 'A':
                 action += "UP";
@@ -88,7 +88,7 @@ export class Application {
         }
     }
 
-    void process_esc_sequence(std::string &action) {
+    static void process_esc_sequence(std::string &action) {
         const std::string key_names[] = {"HOME", "INSERT", "DELETE", "END", "PG_UP", "PG_DOWN",
                                          "HOME", "END",    "",       "F0",  "F1",    "F2",
                                          "F3",   "F4",     "F5",     "",    "F6",    "F7",
@@ -115,7 +115,7 @@ export class Application {
         }
     }
 
-    void process_modifiers(std::string &action, char key) {
+    static void process_modifiers(std::string &action, char key) {
         --key; // Decrement key by one to get bit mask
         if (key & 0b0010)
             action += "ALT+";
@@ -125,7 +125,7 @@ export class Application {
             action += "SHIFT+";
     }
 
-    void process_function_key(std::string &action) {
+    static void process_function_key(std::string &action) {
         char key = 0;
         while ((key = std::cin.get())) {
             if (isdigit(key)) {
@@ -150,7 +150,7 @@ export class Application {
         }
     }
 
-    void process_keystrokes() {
+    static void process_keystrokes() {
         char key = std::cin.get();
         std::string action;
         if (key != 0x1B) {
@@ -192,7 +192,7 @@ export class Application {
     }
 
   public:
-    void init(const std::vector<std::shared_ptr<Window>> &widgets) {
+    static void init(const std::vector<std::shared_ptr<Window>> &widgets) {
         std::signal(SIGWINCH, resize_signal_handler);
 
         update_screen_size();
@@ -200,7 +200,7 @@ export class Application {
         root.attach(widgets);
     }
 
-    void run() {
+    static void run() {
         size_t keys_available = 0;
 
         while (should_continue) {
