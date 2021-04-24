@@ -1,12 +1,14 @@
-export module libtui_window;
+module;
+
+import libtui_base;
 
 #include <cmath>
 #include <iostream>
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
-import libtui_base;
+export module libtui_window;
 
 export class Window : public Container {
     std::string window_name;
@@ -50,7 +52,7 @@ export class Window : public Container {
             std::cout << CSI << "1m";
         }
 
-        Size screen_size = parent->get_size();
+        Size screen_size = get_term_size();
 
         // Move the cursor to the beginning of the widget
         std::cout << CSI << pos.x << ';' << pos.y << 'f';

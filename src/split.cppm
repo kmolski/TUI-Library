@@ -1,4 +1,4 @@
-export module libtui_split;
+module;
 
 import libtui_base;
 
@@ -6,6 +6,8 @@ import libtui_base;
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+export module libtui_split;
 
 export class Split : public Widget {
     Direction dir;

@@ -1,10 +1,15 @@
-export module libtui_base;
+module;
 
 #include <algorithm>
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
+
+#include <sys/ioctl.h>
+#include <unistd.h>
+
+export module libtui_base;
 
 export const std::string ESC = "\x1B";
 export const std::string CSI = "\x1B[";
@@ -66,6 +71,12 @@ export class Drawable {
 
     Size get_size() const { return size; }
     void set_size(Size new_size) { size = new_size; }
+
+    static Size get_term_size() {
+        winsize term_size;
+        ioctl(0, TIOCGWINSZ, &term_size);
+        return Size{term_size.ws_row, term_size.ws_col};
+    }
 
     Drawable *get_parent() const { return parent; }
     void set_parent(Drawable *new_parent) { parent = new_parent; }

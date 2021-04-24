@@ -10,8 +10,8 @@ all : main
 
 .PHONY : clean
 clean :
-	rm -- $(PCMS)
-	rm -- $(OBJS)
+	rm $(PCMS)
+	rm $(OBJS)
 	rm main
 
 obj/ :
@@ -44,7 +44,7 @@ obj/libtui_split.pcm : src/split.cppm obj/ obj/libtui_base.pcm
 obj/libtui_window.pcm : src/window.cppm obj/ obj/libtui_base.pcm
 	$(CXX) $(CXXFLAGS) --precompile -o $@ $<
 
-$(OBJS) : $(SRCS) $(PCMS)
+$(OBJS) : obj/%.o : src/%.cppm $(PCMS)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 main : $(OBJS) src/main.cpp

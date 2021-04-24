@@ -1,4 +1,4 @@
-export module libtui_screen;
+module;
 
 import libtui_base;
 import libtui_window;
@@ -10,6 +10,8 @@ import libtui_window;
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+export module libtui_screen;
 
 export class Screen : public Drawable, public Actionable {
     // This list contains the children windows with the last being the one in focus.

@@ -1,3 +1,7 @@
+#include <memory>
+#include <string>
+#include <vector>
+
 import libtui_app;
 import libtui_base;
 import libtui_button;
@@ -5,9 +9,6 @@ import libtui_grid;
 import libtui_list;
 import libtui_split;
 import libtui_window;
-
-#include <memory>
-#include <vector>
 
 int main() {
     auto grid = std::make_shared<Grid>(
@@ -18,7 +19,7 @@ int main() {
         for (int y = 0; y < 8; ++y) {
             std::shared_ptr<Widget> button = std::make_shared<Button>(
                 Position{1, 1}, Size{1, 1},
-                Color{Color::Foreground::Default, Color::Background::Default}, "*"s);
+                Color{Color::Foreground::Default, Color::Background::Default}, "*");
 
             grid->attach(button);
         }

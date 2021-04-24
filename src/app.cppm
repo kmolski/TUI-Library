@@ -1,4 +1,4 @@
-export module libtui_app;
+module;
 
 import libtui_base;
 import libtui_screen;
@@ -12,17 +12,16 @@ import libtui_window;
 #include <sys/ioctl.h>
 #include <unistd.h>
 
+export module libtui_app;
+
 export class Application {
     static Screen root;
-    static bool should_continue;
 
     static constexpr auto frame_delay = std::chrono::milliseconds{1000 / 30};
 
     static void update_screen_size() {
-        winsize term_size;
-        ioctl(0, TIOCGWINSZ, &term_size);
-
-        root.set_size({term_size.ws_row, term_size.ws_col});
+        Size term_size = Widget::get_term_size();
+        root.set_size(term_size);
     }
 
     static void resize_signal_handler(int signal) {
@@ -203,7 +202,7 @@ export class Application {
     static void run() {
         size_t keys_available = 0;
 
-        while (should_continue) {
+        while (true) {
             if (ioctl(0, FIONREAD, &keys_available), keys_available) {
                 process_keystrokes();
             }
@@ -216,4 +215,3 @@ export class Application {
 };
 
 Screen Application::root = Screen();
-bool Application::should_continue = true;

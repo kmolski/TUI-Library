@@ -1,11 +1,13 @@
-export module libtui_list;
+module;
+
+import libtui_base;
 
 #include <cmath>
 #include <iostream>
 #include <unordered_map>
 #include <vector>
 
-import libtui_base;
+export module libtui_list;
 
 export class List : public Container {
     Direction dir;
@@ -56,7 +58,7 @@ export class List : public Container {
     }
 
     void draw() {
-        Size screen_size = parent->get_size();
+        Size screen_size = get_term_size();
 
         use_color();
 

@@ -1,10 +1,12 @@
-export module libtui_button;
+module;
 
 import libtui_base;
 
 #include <cmath>
 #include <iostream>
 #include <unordered_map>
+
+export module libtui_button;
 
 export class Button : public Widget {
     std::string label;
@@ -20,12 +22,13 @@ export class Button : public Widget {
     }
 
     void draw() {
-        Size screen_size = parent->get_size();
+        Size screen_size = get_term_size();
 
         use_color();
 
         if (active) {
-            std::cout << CSI << "1m" << CSI << "7m"; // Set bold and inverse color for active buttons
+            std::cout << CSI << "1m" << CSI
+                      << "7m"; // Set bold and inverse color for active buttons
         }
 
         for (uint x = 0; x < size.height && pos.x + x < screen_size.height + 1; ++x) {

@@ -1,4 +1,4 @@
-export module libtui_grid;
+module;
 
 import libtui_base;
 
@@ -6,6 +6,8 @@ import libtui_base;
 #include <memory>
 #include <unordered_map>
 #include <vector>
+
+export module libtui_grid;
 
 export class Grid : public Container {
     std::vector<std::shared_ptr<Widget>> children;
@@ -55,7 +57,7 @@ export class Grid : public Container {
     }
 
     void draw() {
-        Size screen_size = parent->get_size();
+        Size screen_size = get_term_size();
 
         use_color();
 
